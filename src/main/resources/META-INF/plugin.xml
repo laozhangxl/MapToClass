@@ -1,0 +1,46 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.xxxx.laozhang-idea-plugin-maptoclass</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>MapToClass</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="laozhang@laozhang.com" url="https://github.com/laozhangxl">LaoZhang</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    MapToClass plugins<br>
+    A plugin for generating conversion code from Map collections to other classes<br>
+    How to use:<br>
+    <ul>
+          <li>Copy the Map collection to be assigned to the clipboard -> For example: Map map</li>
+          <li>Hover the mouse cursor over the class to be converted -> For example: User (anywhere)</li>
+          <li>Press Alt+Insert shortcut key to find MapToClass, which will automatically generate code</li>
+      </ul>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+<!--    <depends>com.intellij.java</depends>-->
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+    <actions>
+        <action id="MapToClassGenerate" class="com.xxxx.plugin.action.MapToClassAction" 
+                text="MapToClass"
+                description="MapToClassGenerate">
+<!--            <add-to-group group-id="ToolsMenu" anchor="first"  />-->
+            <add-to-group group-id="GenerateGroup" anchor="first"  />
+        </action>
+    </actions>
+</idea-plugin>
