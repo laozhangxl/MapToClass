@@ -67,6 +67,28 @@ public abstract class AbstractMapToClass implements IMapToClass {
         return psiClassList;
     }
 
+
+    /**
+     * 识别泛型类型
+     * @param clazzName
+     * @return
+     */
+    protected String[] extractGenericTypes(String clazzName) {
+        // 提取泛型类型，假设格式为 Map<KEY_TYPE, VALUE_TYPE>
+        int startIndex = clazzName.indexOf("<");
+        int endIndex = clazzName.indexOf(">");
+        if (startIndex == -1 || endIndex == -1) {
+            return null;
+        }
+        String generics = clazzName.substring(startIndex + 1, endIndex).trim();
+        String[] split = generics.split(",");
+        //对每个元素去掉前后的空格
+        for (int i = 0; i < split.length; i++) {
+            split[i] = split[i].trim();
+        }
+        return split;
+    }
+
     /**
      * 获取类下的方法：[setId, setName, setUserAccount, ....]
      * @param psiClass

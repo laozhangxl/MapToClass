@@ -48,25 +48,109 @@ public class MapKeyConvert {
         }
         return camelCaseStr.toString();
     }
-    
-    public static String toAnyType(String param, String objStr, Map<String, String> paramTypeMap) {
-        String typeStr = paramTypeMap.get(param);
-        if (typeStr.equals("String")) {
-            objStr = "String.valueOf(" + objStr + ")";
-        } else if (typeStr.equals("Integer") || typeStr.equals("int")) {
-            objStr = "(Integer) " + objStr;
-        } else if (typeStr.equals("Long") || typeStr.equals("long")) {
-            objStr = "(Long) " + objStr;
-        } else if (typeStr.equals("Double")) {
-            objStr = "(Double) " + objStr;
-        } else if (typeStr.equals("Date")) {
-            objStr = "(Date) " + objStr;
-        } else if (typeStr.equals("LocalDate")) {
-            objStr = "(LocalDate) " + objStr;
-        } else if (typeStr.equals("BigDecimal")) {
-            objStr = "new BigDecimal(String.valueOf(" + objStr + "))";
+
+    /**
+     * 根据泛型类型进行类型转换
+     * @param keyType
+     * @param valueType
+     * @param targetType
+     * @param objStr
+     * @return
+     */
+    public static String toAnyType(String keyType, String valueType, String targetType, String objStr) {
+        // 根据 valueType 和 targetType 进行类型转换
+        if ("String".equals(valueType)) {
+            if ("String".equals(targetType)) {
+                return objStr;
+            } else if ("Integer".equals(targetType) || "int".equals(targetType)) {
+                return "Integer.valueOf(" + objStr + ")";
+            } else if ("Long".equals(targetType) || "long".equals(targetType)) {
+                return "Long.valueOf(" + objStr + ")";
+            } else if ("Double".equals(targetType)) {
+                return "Double.valueOf(" + objStr + ")";
+            } else if ("Float".equals(targetType)) {
+                return "Float.valueOf(" + objStr + ")";
+            } else if ("Boolean".equals(targetType)) {
+                return "Boolean.valueOf(" + objStr + ")";
+            } else if ("Date".equals(targetType)) {
+                return "new Date(" + objStr + ")";
+            } else if ("LocalDate".equals(targetType)) {
+                return "LocalDate.parse(" + objStr + ")";
+            } else if ("BigDecimal".equals(targetType)) {
+                return "new BigDecimal(" + objStr + ")";
+            } else {
+                // 默认处理为 String
+                return objStr;
+            }
+        } else if ("Integer".equals(valueType) || "int".equals(valueType)) {
+            if ("String".equals(targetType)) {
+                return "String.valueOf(" + objStr + ")";
+            } else if ("Integer".equals(targetType) || "int".equals(targetType)) {
+                return objStr;
+            } else if ("Long".equals(targetType) || "long".equals(targetType)) {
+                return "Long.valueOf(" + objStr + ")";
+            } else if ("Double".equals(targetType)) {
+                return "Double.valueOf(" + objStr + ")";
+            } else if ("Float".equals(targetType)) {
+                return "Float.valueOf(" + objStr + ")";
+            } else {
+                // 默认处理为 Integer
+                return objStr;
+            }
+        } else if ("Long".equals(valueType) || "long".equals(valueType)) {
+            if ("String".equals(targetType)) {
+                return "String.valueOf(" + objStr + ")";
+            } else if ("Integer".equals(targetType) || "int".equals(targetType)) {
+                return "Integer.valueOf(" + objStr + ")";
+            } else if ("Long".equals(targetType) || "long".equals(targetType)) {
+                return objStr;
+            } else if ("Double".equals(targetType)) {
+                return "Double.valueOf(" + objStr + ")";
+            } else {
+                // 默认处理为 Long
+                return objStr;
+            }
+        } else if ("Double".equals(valueType)) {
+            if ("String".equals(targetType)) {
+                return "String.valueOf(" + objStr + ")";
+            } else if ("Integer".equals(targetType) || "int".equals(targetType)) {
+                return "Integer.valueOf(" + objStr + ")";
+            } else if ("Long".equals(targetType) || "long".equals(targetType)) {
+                return "Long.valueOf(" + objStr + ")";
+            } else if ("Double".equals(targetType)) {
+                return objStr;
+            } else {
+                // 默认处理为 Double
+                return objStr;
+            }
+        } else if ("Object".equals(valueType)) {
+            // Object 类型需要根据 targetType 进行强制转换
+            if ("String".equals(targetType)) {
+                return "String.valueOf(" + objStr + ")";
+            } else if ("Integer".equals(targetType) || "int".equals(targetType)) {
+                return "Integer.valueOf(" + objStr + ")";
+            } else if ("Long".equals(targetType) || "long".equals(targetType)) {
+                return "Long.valueOf(" + objStr + ")";
+            } else if ("Double".equals(targetType)) {
+                return "Double.valueOf(" + objStr + ")";
+            } else if ("Float".equals(targetType)) {
+                return "Float.valueOf(" + objStr + ")";
+            } else if ("Boolean".equals(targetType)) {
+                return "Boolean.valueOf(" + objStr + ")";
+            } else if ("Date".equals(targetType)) {
+                return "new Date(" + objStr + ")";
+            } else if ("LocalDate".equals(targetType)) {
+                return "LocalDate.parse(" + objStr + ")";
+            } else if ("BigDecimal".equals(targetType)) {
+                return "new BigDecimal(" + objStr + ")";
+            } else {
+                // 默认处理为 Object
+                return objStr;
+            }
+        } else {
+            // 默认处理为 String
+            return objStr;
         }
-        return objStr;
     }
     
     

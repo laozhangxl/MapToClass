@@ -18,8 +18,8 @@
     A plugin for generating conversion code from Map collections to other classes<br>
     How to use:<br>
     <ul>
-          <li>Copy the Map collection to be assigned to the clipboard -> For example: Map map</li>
-          <li>Hover the mouse cursor over the class to be converted -> For example: User (anywhere)</li>
+          <li>Copy the Map collection to be assigned to the clipboard -> For example: Map<String , Object> map</li>
+          <li>Hover the mouse cursor over the class to be converted -> For example: User user(anywhere)</li>
           <li>Press Alt+Insert shortcut key to find MapToClass, which will automatically generate code</li>
     </ul>
     Of course, it is only for the convenience of work, there may be some issues, and relevant optimizations will be carried out in the future. Thank you<br>

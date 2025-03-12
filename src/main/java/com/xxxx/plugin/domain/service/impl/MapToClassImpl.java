@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MapToClassImpl extends AbstractMapToClass {
@@ -132,27 +133,39 @@ public class MapToClassImpl extends AbstractMapToClass {
     protected GetObjConfigDO getMapConvertAndMethod(GenerateContext generateContext, SetObjConfigDO setObjConfigDO) {
         List<String> paramList = setObjConfigDO.getParamList();
         Map<String, String> paramTypeMap = setObjConfigDO.getParamTypeMap();
-        //获取剪切板信息
+        // 获取剪切板信息
         String blankText = getSystemClipboardText().trim();
-        
-        //提取信息:按空格 分割
-        String[] split = blankText.split("\\s");
-        if (split.length < 2) {
+
+        int lastSpaceIndex = blankText.lastIndexOf(' ');
+
+        String clazzName = "";
+        String clazzParam = "";
+        if (lastSpaceIndex != -1) {
+            clazzName = blankText.substring(0, lastSpaceIndex).trim();
+            clazzParam = blankText.substring(lastSpaceIndex + 1).trim();
+
+        } else {
+            System.out.println("输入格式不匹配");
             return new GetObjConfigDO(null, null, new HashMap<>());
         }
-        
-        // Map map
-        String clazzName = split[0].trim();
-        String clazzParam = split[1].trim();
-        
-        //拼装 map.get("param") -- 并适配其他数据类型
-        Map<String, String> paramMtdMap = new HashMap<>();
-        
-        for (String param : paramList) {
-            paramMtdMap.put(param, MapKeyConvert.toAnyType(param, clazzParam + ".get(\"" + param + "\")", paramTypeMap));
+
+        // 提取泛型类型
+        String[] genericTypes = extractGenericTypes(clazzName);
+        if (genericTypes == null || genericTypes.length != 2) {
+            return new GetObjConfigDO(null, null, new HashMap<>());
         }
-        
-        
+        String keyType = genericTypes[0]; // 通常为 String
+        String valueType = genericTypes[1]; // 如 Integer, Object 等
+
+        // 拼装 map.get("param") -- 并适配其他数据类型
+        Map<String, String> paramMtdMap = new HashMap<>();
+
+        for (String param : paramList) {
+            String targetType = paramTypeMap.get(param);
+            String mapExpression = clazzParam + ".get(\"" + param + "\")";
+            paramMtdMap.put(param, MapKeyConvert.toAnyType(keyType, valueType, targetType, mapExpression));
+        }
+
         return new GetObjConfigDO(clazzName, clazzParam, paramMtdMap);
     }
 
